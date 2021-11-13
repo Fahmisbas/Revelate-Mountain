@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/savedFragment"
+            android:icon="@drawable/ic_bookmark_border_24"
+            android:title="@string/saved" />
+
+    </group>
+
+
+    <item
+        android:checkableBehavior="single"
+        android:title="@string/communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_send_24"
+                android:title="@string/send" />
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_share_24"
+                android:title="@string/share" />
+        </menu>
+    </item>
+
+
+    <item
+        android:checkableBehavior="single"
+        android:title="Other">
+        <menu>
+            <item
+                android:id="@+id/informationFragment"
+                android:icon="@drawable/ic_info_24"
+                android:title="@string/information" />
+        </menu>
+    </item>
+
+</menu>
