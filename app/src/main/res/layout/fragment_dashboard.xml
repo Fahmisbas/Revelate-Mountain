@@ -7,78 +7,111 @@
     android:orientation="vertical"
     tools:context=".ui.dashboard.DashboardFragment">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinator_layout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar_layout"
-            android:background="@color/white"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/coordinator_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:titleEnabled="false">
+                android:layout_height="match_parent">
 
-
-
-                <LinearLayout
+                <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/appbar_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:background="@color/white">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Latest"
-                        android:textSize="@dimen/text_size_large"
-                        android:layout_marginTop="@dimen/margin_padding_size_medium"
-                        android:layout_marginStart="@dimen/margin_padding_size_medium"
-                        android:fontFamily="@font/raleway_regular" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_latest"
+                    <com.google.android.material.appbar.CollapsingToolbarLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_padding_size_small"
-                        android:layout_marginTop="@dimen/margin_padding_size_small"
-                         />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Popular"
-                        android:textSize="@dimen/text_size_large"
-                        android:layout_marginTop="@dimen/margin_padding_size_medium"
-                        android:layout_marginStart="@dimen/margin_padding_size_medium"
-                        android:fontFamily="@font/raleway_regular"
-                        />
-
-                </LinearLayout>
+                        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                        app:titleEnabled="false">
 
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+                            <TextView
+                                android:id="@+id/title_latest"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_padding_size_medium"
+                                android:layout_marginTop="@dimen/margin_padding_size_medium"
+                                android:fontFamily="@font/raleway_bold"
+                                android:text="Latest"
+                                android:textColor="@color/almost_black"
+                                android:textSize="@dimen/text_size_large"
+                                android:visibility="gone" />
 
-        </com.google.android.material.appbar.AppBarLayout>
-        <!-- RecyclerView -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_dashboard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="true"
-            android:layout_margin="@dimen/margin_padding_size_small"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:scrollbars="vertical" />
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_latest"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_padding_size_small"
+                                android:layout_marginTop="@dimen/margin_padding_size_small" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:orientation="horizontal"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/title_popular"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/margin_padding_size_medium"
+                                    android:layout_marginTop="@dimen/margin_padding_size_medium"
+                                    android:fontFamily="@font/raleway_bold"
+                                    android:gravity="center"
+                                    android:layout_centerVertical="true"
+                                    android:layout_alignParentStart="true"
+                                    android:text="Popular"
+                                    android:textColor="@color/almost_black"
+                                    android:textSize="@dimen/text_size_large"
+                                    android:visibility="visible" />
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_centerVertical="true"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_dehaze_24"
+                                    android:layout_gravity="center"/>
 
 
+                            </RelativeLayout>
+                        </LinearLayout>
+                    </com.google.android.material.appbar.CollapsingToolbarLayout>
+                </com.google.android.material.appbar.AppBarLayout>
 
+
+                <!-- RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_dashboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_padding_size_small"
+                    android:nestedScrollingEnabled="true"
+                    android:scrollbars="vertical"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.revelatestudio.revelatemountain.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,13 +14,12 @@ import com.revelatestudio.revelatemountain.util.ViewType.LATEST
 import com.revelatestudio.revelatemountain.util.ViewType.POPULAR
 import com.revelatestudio.revelatemountain.util.getProgressDrawable
 import com.revelatestudio.revelatemountain.util.loadImage
+import com.revelatestudio.revelatemountain.util.makeToast
 
-class WallpaperListAdapter(private var viewType: Int = 0) : PagingDataAdapter<HitsItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+typealias OnItemClickListener = (HitsItem) -> Unit
 
+class WallpaperListAdapter(private var viewType: Int, onItemClickListener: OnItemClickListener) : PagingDataAdapter<HitsItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
-    fun setViewType(viewType: Int) {
-        this.viewType = viewType
-    }
 
     override fun getItemViewType(position: Int): Int {
         return viewType
@@ -30,19 +30,12 @@ class WallpaperListAdapter(private var viewType: Int = 0) : PagingDataAdapter<Hi
             POPULAR -> {
                 val binding = ItemPopularMountainWallpaperBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 PopularViewHolder(binding)
-            }
-            LATEST -> {
+            } else -> {
                 val binding = ItemLatestMountainWallpaperBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 LatestViewHolder(binding)
             }
-            else -> {
-                val binding = ItemPopularMountainWallpaperBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                PopularViewHolder(binding)
-            }
         }
     }
-
-
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
@@ -64,13 +57,17 @@ class WallpaperListAdapter(private var viewType: Int = 0) : PagingDataAdapter<Hi
 
     inner class PopularViewHolder(private val binding : ItemPopularMountainWallpaperBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: HitsItem) {
-            binding.wallpaper.loadImage(item.webformatURL, getProgressDrawable(binding.root.context))
+            binding.wallpaper.loadImage(item.webformatURL, onSuccess = {}, onFailure = {})
         }
     }
 
     inner class LatestViewHolder(private val binding: ItemLatestMountainWallpaperBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: HitsItem) {
-            binding.wallpaper.loadImage(item.webformatURL, getProgressDrawable(binding.root.context))
+            binding.wallpaper.loadImage(item.webformatURL, onSuccess = {
+
+            }, onFailure = {
+
+            })
         }
     }
 

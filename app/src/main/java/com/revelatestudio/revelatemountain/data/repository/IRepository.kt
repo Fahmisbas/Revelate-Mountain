@@ -9,5 +9,4 @@ interface IRepository {
     suspend fun getPopularMountainPictures() : DataSource.Factory<Int, PixabayResponse>
     suspend fun getLatestMountainPictures() : Resource<PixabayResponse>
 
-
 }

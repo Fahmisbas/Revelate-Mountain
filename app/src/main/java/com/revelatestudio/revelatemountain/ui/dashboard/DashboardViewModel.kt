@@ -1,42 +1,49 @@
 package com.revelatestudio.revelatemountain.ui.dashboard
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
-import com.revelatestudio.revelatemountain.data.remote.HitsItem
+import androidx.paging.*
+import com.revelatestudio.revelatemountain.data.MountainPicturesPagingSource
 import com.revelatestudio.revelatemountain.data.repository.MainRepository
-import com.revelatestudio.revelatemountain.util.DisptacherProvider
-import com.revelatestudio.revelatemountain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DashboardViewModel@Inject constructor(
+class DashboardViewModel @Inject constructor(
     private val repository: MainRepository,
-    private val dispatcher : DisptacherProvider
 ) : ViewModel() {
 
-//    private var _popularMountainPictures = MutableLiveData<RetrievalEvent>(RetrievalEvent.Empty)
-//    val popularMountainPictures : LiveData<RetrievalEvent> get() = _popularMountainPictures
-//
-//    private var _latestMountainPictures = MutableLiveData<RetrievalEvent>(RetrievalEvent.Empty)
-//    val latestMountainPictures : LiveData<RetrievalEvent> get() = _popularMountainPictures
+    fun getPopularMountainPicturesPager() = Pager(
+        PagingConfig(
+            pageSize = 20,
+            prefetchDistance = 5,
+            enablePlaceholders = false,
+            initialLoadSize = 20,
+            maxSize = 60
+        )
+    ) {
+        MountainPicturesPagingSource(repository, POPULAR_CATEGORY)
+    }.liveData.cachedIn(viewModelScope)
 
 
-    val pouplarMountainPictures = repository.getPopularMountainPictures().cachedIn(viewModelScope)
+    fun getLatestMountainPictures() = Pager(
+        PagingConfig(
+            pageSize = 20,
+            prefetchDistance = 5,
+            enablePlaceholders = false,
+            initialLoadSize = 20,
+            maxSize = 60
+        )
+    ) {
+        MountainPicturesPagingSource(repository, LATEST_CATEGORY)
+    }.liveData.cachedIn(viewModelScope)
 
-    val latestMountainPictures = repository.getLatestMountainPictures().cachedIn(viewModelScope)
 
-
-
-    sealed class RetrievalEvent {
-        class Success(val mountainPictures: List<HitsItem?>): RetrievalEvent()
-        class Failure(val errorText: String): RetrievalEvent()
-        object Loading : RetrievalEvent()
-        object Empty : RetrievalEvent()
+    companion object {
+        const val POPULAR_CATEGORY = "popular"
+        const val LATEST_CATEGORY = "latest"
     }
+
 
 }

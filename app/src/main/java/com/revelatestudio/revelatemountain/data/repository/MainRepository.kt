@@ -1,26 +1,21 @@
 package com.revelatestudio.revelatemountain.data.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.liveData
-import com.revelatestudio.revelatemountain.data.LatestPicturesPagingSource
-import com.revelatestudio.revelatemountain.data.PopularPicturesPagingSource
+
+import com.revelatestudio.revelatemountain.data.remote.HitsItem
 import com.revelatestudio.revelatemountain.data.remote.PixabayApi
+import com.revelatestudio.revelatemountain.util.API_KEY
 import javax.inject.Inject
+
 
 class MainRepository @Inject constructor(
     private val api: PixabayApi
 ) {
 
-    fun getPopularMountainPictures() = Pager(PagingConfig( pageSize = 20,
-        prefetchDistance = 5,
-        enablePlaceholders = false,
-        initialLoadSize = 20,
-                maxSize =60)) {
-        PopularPicturesPagingSource(api)
-    }.liveData
-
-    fun getLatestMountainPictures() = Pager(PagingConfig(10)) {
-        LatestPicturesPagingSource(api)
-    }.liveData
+    suspend fun getMountainPictures(nextPage : Int, loadSize : Int, order : String) : List<HitsItem> {
+        val response = api.getMountainPictures(page = nextPage, perPage = loadSize, order = order)
+        val result = response?.hits
+        return if (!result.isNullOrEmpty()) {
+            result
+        } else listOf()
+    }
 }
